@@ -288,21 +288,7 @@
             </div>
           </div>
         </section>
-
         <!-- Comentarios (libro de visitas) -->
-        <section id="comentarios" class="section">
-          <h3>Comentarios</h3>
-          <div class="content gb">
-            <form id="gbForm">
-              <input id="gbName" type="text" placeholder="Tu nombre o @user (opcional)">
-              <textarea id="gbMsg" rows="4" placeholder="Deja un mensaje oscuro y amable..."></textarea>
-              <button type="submit">Publicar</button>
-            </form>
-            <div id="gbEntries" style="margin-top:10px;"></div>
-            <small style="opacity:.7">Se agradecen los comentarios</small>
-          </div>
-        </section>
-
         <!-- Enlaces -->
         <section id="enlaces" class="section">
           <h3>Enlaces</h3>
@@ -326,38 +312,7 @@
     // Año y fecha
     document.getElementById('year').textContent = new Date().getFullYear();
     document.getElementById('updated').textContent = new Date().toLocaleDateString();
-
     // Libro de visitas (LocalStorage)
-    (function(){
-      const KEY='luna_guestbook_v1';
-      const $form=document.getElementById('gbForm');
-      const $name=document.getElementById('gbName');
-      const $msg=document.getElementById('gbMsg');
-      const $list=document.getElementById('gbEntries');
-
-      function escapeHtml(x){return x.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
-      function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
-      function save(v){ localStorage.setItem(KEY, JSON.stringify(v)); }
-      function render(items){
-        $list.innerHTML='';
-        items.slice().reverse().forEach(it=>{
-          const d=document.createElement('div');
-          d.className='entry';
-          d.innerHTML=`<strong>${escapeHtml(it.name||'Anónimo')}</strong> — <span style="opacity:.7;font-size:12px">${new Date(it.date).toLocaleString()}</span><br>${escapeHtml(it.msg)}`;
-          $list.appendChild(d);
-        });
-      }
-      $form.addEventListener('submit', e=>{
-        e.preventDefault();
-        const name=($name.value||'').trim();
-        const msg=($msg.value||'').trim();
-        if(!msg){ $msg.focus(); return; }
-        const list=load(); list.push({name,msg,date:Date.now()}); save(list); render(list);
-        $name.value=''; $msg.value='';
-      });
-      render(load());
-    })();
-
     // Efecto “glitter” sencillo: estrellas que aparecen donde clicas/mueves
     (function(){
       let last=0;
@@ -374,6 +329,7 @@
   </script>
 </body>
 </html>
+
 
 
 
